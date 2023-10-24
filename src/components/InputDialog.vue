@@ -57,6 +57,7 @@ export default class InputDialog extends Vue {
   line-height: 1;
   justify-content: center;
   box-sizing: border-box;
+  z-index: 1;
   &_left {
     flex-grow: 1;
   }

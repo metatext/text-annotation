@@ -237,6 +237,7 @@ export default class TextContainer extends Vue {
 
 <style lang="scss" scoped>
 .text-annotation-container {
+  display: inline-block;
   line-height: 2;
   text-align: left;
   font-family: inherit;
