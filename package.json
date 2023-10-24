@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:HC200ok/vue2-text-annotation.git"
+    "url": "git+git@github.com:mauricio-frontend/simple-text-annotation.git"
   },
   "keywords": [
     "vue2",
@@ -19,7 +19,7 @@
     "data-masking",
     "vue-component"
   ],
-  "homepage": "https://github.com/HC200ok/vue2-text-annotation",
+  "homepage": "https://github.com/mauricio-frontend/simple-text-annotation",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
