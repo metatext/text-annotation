@@ -11,3 +11,8 @@ export interface Chunk {
   start?: number;
   end?: number;
 }
+
+export interface Label {
+  id: string;
+  label?:string;
+}

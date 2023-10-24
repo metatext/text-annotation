@@ -1,14 +1,14 @@
 <template>
-  <div
-    class="text-annotation-container"
-    :class="{ scroll: maxHeight }"
-    v-on:mouseup="onMouseUp"
-    :style="{ maxHeight: maxHeight }"
-  >
+  <div class="text-annotation-container" v-on:mouseup="onMouseUp">
     <!-- {{ chunks }} -->
     <template v-for="(item, index) in chunks">
-      <span class="text-for-annotation" v-if="item.type === 'text'" :key="index"
-      :class="{ 'text-indent': isTextIndent(index)}">{{item.content}}</span>
+      <span
+        class="text-for-annotation"
+        v-if="item.type === 'text'"
+        :key="index"
+        :class="{ 'text-indent': isTextIndent(index) }"
+        >{{ item.content }}</span
+      >
       <br v-if="item.type === 'wrap'" :key="index" />
       <text-annotation
         v-if="item.type === 'annotation'"
@@ -16,8 +16,6 @@
         :text-annotation="item"
         :annotation-text-color="annotationTextColor"
         :annotation-bg-color="annotationBgColor"
-        :data-masking="dataMasking"
-        :data-masking-charactor="dataMaskingCharactor"
         @delete-annotation="deleteAnnotation"
       />
     </template>
@@ -30,6 +28,7 @@
         @add-annotation="addAnnotation"
         :annotation-text-color="annotationTextColor"
         :annotation-bg-color="annotationBgColor"
+        :labels="labels"
         :align="inputDialogAlign"
       />
     </transition>
@@ -40,7 +39,7 @@
 import TextAnnotation from "./TextAnnotation.vue";
 import InputDialog from "./InputDialog.vue";
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { Chunk, Annotation } from "@/type";
+import { Chunk, Annotation, Label } from "@/type";
 @Component({
   components: {
     TextAnnotation,
@@ -52,13 +51,9 @@ export default class TextContainer extends Vue {
   @Prop({ default: [] }) readonly value!: Array<Annotation>;
   @Prop({ default: "#35495e" }) readonly annotationTextColor!: string;
   @Prop({ default: "#41b883" }) readonly annotationBgColor!: string;
-  @Prop({ default: false }) readonly dataMasking!: boolean;
-  @Prop({ default: "●" }) readonly dataMaskingCharactor!: string;
-  @Prop({ default: "*" }) readonly replaceCharactor!: string;
-  @Prop({ default: null }) readonly maxHeight!: string | null;
+  @Prop({ default: [] }) readonly labels!: Array<Label>;
 
   textAnnotations: Array<Annotation> = [];
-  textAfterMasking: string | null = null;
 
   chunks: Array<Chunk> = [];
 
@@ -81,9 +76,6 @@ export default class TextContainer extends Vue {
     const chunks = this.generateChunks(this.text, entities);
     this.chunks = chunks;
     this.$emit("input", newVal);
-    if (this.dataMasking) {
-      this.$emit("afterDataMasking", this.getTextAfterMasking(newVal));
-    }
   }
 
   @Watch("selectingContent")
@@ -98,17 +90,6 @@ export default class TextContainer extends Vue {
       return true;
     }
     return false;
-  }
-
-  getTextAfterMasking(textAnnotations: Array<Annotation>): string {
-    let afterMasking: string = this.text;
-    textAnnotations.forEach((item) => {
-      afterMasking =
-        afterMasking.substr(0, item.start) +
-        this.replaceCharactor.repeat(item.content.length) +
-        afterMasking.substr(item.start + item.content.length);
-    });
-    return afterMasking;
   }
 
   // generate text chunks
@@ -178,7 +159,7 @@ export default class TextContainer extends Vue {
     const target = event.target;
     // if click on `ok` button, pass
     if (target.classList.contains("add-annotation-button")) return;
-    // effective when mouseover on class `text-for-annotation`, expecially unavailable on `annotation` 
+    // effective when mouseover on class `text-for-annotation`, expecially unavailable on `annotation`
     if (
       target.classList.contains("text-for-annotation") ||
       target.classList.contains("text-annotation-container")
@@ -256,11 +237,9 @@ export default class TextContainer extends Vue {
 
 <style lang="scss" scoped>
 .text-annotation-container {
-  box-shadow: 0 2px 3px rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 10%);
   line-height: 2;
-  padding: 10px 10px 10px 7px;
   text-align: left;
-  font-family: initial;
+  font-family: inherit;
   .text-for-annotation {
     &.text-indent {
       padding-left: 2em;
@@ -268,29 +247,6 @@ export default class TextContainer extends Vue {
     margin: 0px;
     padding: 0px;
     text-indent: 2em;
-  }
-  &.scroll {
-    overflow: scroll;
-    /* custom scrollbar */
-    &::-webkit-scrollbar {
-      width: 20px;
-      height: 0px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #d6dee1;
-      border-radius: 20px;
-      border: 6px solid transparent;
-      background-clip: content-box;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #a8bbbf;
-    }
   }
 }
 

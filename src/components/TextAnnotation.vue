@@ -3,21 +3,8 @@
     class="text-annotation"
     :style="{ borderColor: annotationBgColor, color: annotationTextColor }"
   >
-    <span
-      class="text-annotation__word"
-      :class="{ 'data-masking': dataMasking }"
-    >
-      <template v-if="dataMasking">
-        <span class="text-annotation__word-top">{{
-          dataMaskingCharactor.repeat(textAnnotation.content.length)
-        }}</span>
-        <span class="text-annotation__word-bottom">{{
-          textAnnotation.content
-        }}</span>
-      </template>
-      <span v-else>
-        {{ textAnnotation.content }}
-      </span>
+    <span class="text-annotation__word">
+      {{ textAnnotation.content }}
     </span>
     <span
       class="text-annotation__annotation"
@@ -36,8 +23,6 @@ export default class TextAnnotation extends Vue {
   @Prop({ required: true }) readonly textAnnotation!: Annotation;
   @Prop({ required: true }) readonly annotationBgColor!: string;
   @Prop({ required: true }) readonly annotationTextColor!: string;
-  @Prop({ default: "●" }) readonly dataMaskingCharactor!: string;
-  @Prop({ required: true }) readonly dataMasking!: boolean;
   @Emit()
   deleteAnnotation(): number {
     return this.textAnnotation.start;
@@ -52,9 +37,11 @@ export default class TextAnnotation extends Vue {
   display: inline-block;
   position: relative;
   cursor: pointer;
+
   &:hover &__delete {
     display: block;
   }
+
   &__word {
     float: left;
     height: 1.3em;
@@ -62,6 +49,7 @@ export default class TextAnnotation extends Vue {
     overflow: hidden;
     padding-left: 2px;
     padding-right: 2px;
+
     &-top,
     &-bottom {
       height: 1.3em;
@@ -69,18 +57,15 @@ export default class TextAnnotation extends Vue {
       display: block;
       transition: margin-top 0.3s;
     }
-    &.data-masking {
-      &:hover .text-annotation__word-top {
-        margin-top: -1.3em;
-      }
-    }
   }
+
   &__annotation {
     display: inline-block;
     font-weight: 700;
     height: 1.3em;
     padding-left: 2px;
   }
+
   &__delete {
     font-size: 16px;
     color: #fff;
@@ -96,6 +81,7 @@ export default class TextAnnotation extends Vue {
     height: 16px;
     background-color: rgba(0, 0, 0, 0.54);
     border: none;
+
     &:hover {
       cursor: pointer;
     }

@@ -1,11 +1,11 @@
 {
-  "name": "vue2-text-annotation",
+  "name": "simple-text-annotation",
   "description": "A vue2 component for text annotation",
-  "version": "0.0.8",
+  "version": "0.0.1",
   "private": false,
-  "author": "HC200ok",
+  "author": "Maurício Madruga de Azevedo",
   "license": "MIT",
-  "main": "dist/vue2-text-annotation.common.js",
+  "main": "dist/simple-text-annotation.common.js",
   "files": [
     "dist"
   ],
@@ -24,7 +24,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-package": "vue-cli-service build --target lib --name vue2-text-annotation ./src/index.js"
+    "build-package": "vue-cli-service build --target lib --name simple-text-annotation ./src/index.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",

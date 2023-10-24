@@ -4,16 +4,8 @@
       class="text-container"
       v-model="labeledData"
       :text="text"
-      :data-masking="true"
-      @afterDataMasking="updateTextAfterDataMasking"
+      :labels="labels"
     />
-    <br />
-    labeled data: <br />
-    {{ labeledData }}
-    <br />
-    <br />
-    text after data masking:<br />
-    {{ textAfterMasking }}
   </div>
 </template>
 
@@ -39,10 +31,11 @@ export default class App extends Vue {
     },
   ];
 
-  textAfterMasking = this.text;
-
-  updateTextAfterDataMasking(textAfterMasking: string): void {
-    this.textAfterMasking = textAfterMasking;
-  }
+  labels = [
+    {
+      id: 1,
+      label: "framework",
+    },
+  ];
 }
 </script>

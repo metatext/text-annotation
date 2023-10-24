@@ -5,16 +5,12 @@
     :style="{ left: posX, top: posY, width: `${inputDialogWidth}px` }"
   >
     <div class="input-dialog__box_left">
-      <input
-        id="input-dialog"
-        class="input-dialog"
-        autocomplete="off"
-        v-model="annotation"
-        ref="input"
-        type="text"
-        v-on:mouseup.stop
-        @keyup.enter="addAnnotation"
-      />
+      <select v-model="annotation" id="input-dialog" class="input-dialog">
+        <option value=""></option>
+        <option v-for="label in labels" :value="label.label" :key="label.id">
+          {{ label.label }}
+        </option>
+      </select>
       <div class="underline" :style="{ borderColor: annotationBgColor }"></div>
     </div>
     <button
@@ -31,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import { Label } from "@/type";
 import { Component, Vue, Emit, Prop } from "vue-property-decorator";
 @Component
 export default class InputDialog extends Vue {
@@ -40,6 +37,7 @@ export default class InputDialog extends Vue {
   @Prop({ required: true }) annotationBgColor!: string;
   @Prop({ required: true }) align!: string;
   @Prop({ required: true }) inputDialogWidth!: number;
+  @Prop({ default: [] }) labels!: Array<Label>;
 
   annotation = "";
 
