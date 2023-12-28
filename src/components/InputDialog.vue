@@ -5,8 +5,8 @@
     :style="{ left: posX, top: posY, width: `${inputDialogWidth}px` }"
   >
     <div class="input-dialog__box_left">
-      <select v-model="annotation" id="input-dialog" class="input-dialog">
-        <option value=""></option>
+      <select v-model="label" id="input-dialog" class="input-dialog">
+        <option value="" disabled>Select a label</option>
         <option v-for="label in labels" :value="label.label" :key="label.id">
           {{ label.label }}
         </option>
@@ -21,7 +21,7 @@
         color: annotationTextColor,
       }"
     >
-      ok
+      <span>ADD</span>
     </button>
   </div>
 </template>
@@ -39,15 +39,18 @@ export default class InputDialog extends Vue {
   @Prop({ required: true }) inputDialogWidth!: number;
   @Prop({ default: [] }) labels!: Array<Label>;
 
-  annotation = "";
+  label = "";
 
   @Emit()
   addAnnotation(): string {
-    return this.annotation;
+    return this.label;
   }
 }
 </script>
+
 <style lang="scss" scoped>
+
+
 .input-dialog__box {
   position: fixed;
   background-color: #fff;
@@ -90,7 +93,7 @@ export default class InputDialog extends Vue {
       outline: none;
       box-sizing: border-box;
       background: none;
-      height: 15px;
+      height: 20px;
       margin-bottom: 2px;
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px white inset !important;
@@ -108,12 +111,13 @@ export default class InputDialog extends Vue {
     display: inline-block;
     padding: 0px;
     font-size: 13px;
-    border-radius: 50%;
     height: 22px;
-    width: 22px;
+    width: 42px;
+    opacity: 90%;
     margin-left: 5px;
     cursor: pointer;
     font-weight: bold;
   }
 }
+
 </style>

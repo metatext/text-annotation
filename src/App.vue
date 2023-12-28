@@ -5,6 +5,9 @@
       v-model="labeledData"
       :text="text"
       :labels="labels"
+      :readonly="false"
+      annotationBgColor="#3482F6" 
+      annotationTextColor="#f1f1f1"
     />
   </div>
 </template>
@@ -35,6 +38,18 @@ export default class App extends Vue {
     {
       id: 1,
       label: "framework",
+    },
+    {
+      id: 1,
+      label: "programming",
+    },
+    {
+      id: 1,
+      label: "compiler",
+    },
+    {
+      id: 1,
+      label: "cloud provider",
     },
   ];
 }

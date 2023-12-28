@@ -7,7 +7,7 @@
         v-if="item.type === 'text'"
         :key="index"
         :class="{ 'text-indent': isTextIndent(index) }"
-        >{{ item.content }}</span
+        >{{ item.text }}</span
       >
       <br v-if="item.type === 'wrap'" :key="index" />
       <text-annotation
@@ -16,10 +16,13 @@
         :text-annotation="item"
         :annotation-text-color="annotationTextColor"
         :annotation-bg-color="annotationBgColor"
+        :labels="labels"
+        :readonly="readonly"
         @delete-annotation="deleteAnnotation"
+
       />
     </template>
-    <transition name="panelIn">
+    <transition name="panelIn" v-if="!readonly">
       <input-dialog
         v-if="showInputDialog"
         :posX="inputDialogPosX"
@@ -52,6 +55,7 @@ export default class TextContainer extends Vue {
   @Prop({ default: "#35495e" }) readonly annotationTextColor!: string;
   @Prop({ default: "#41b883" }) readonly annotationBgColor!: string;
   @Prop({ default: [] }) readonly labels!: Array<Label>;
+  @Prop({ required: false }) readonly readonly!: boolean;
 
   textAnnotations: Array<Annotation> = [];
 
@@ -99,16 +103,16 @@ export default class TextContainer extends Vue {
     for (const snippet of snippets.slice(0, -1)) {
       chunks.push({
         type: "text",
-        content: snippet,
+        text: snippet,
       });
       chunks.push({
         type: "wrap",
-        content: "↵",
+        text: "↵",
       });
     }
     chunks.push({
       type: "text",
-      content: snippets.slice(-1)[0],
+      text: snippets.slice(-1)[0],
     });
     return chunks;
   }
@@ -128,9 +132,9 @@ export default class TextContainer extends Vue {
       piece = characters.slice(entity.start, entity.end).join("");
       chunks.push({
         type: "annotation",
-        content: piece,
+        text: piece,
         start: entity.start,
-        annotation: entity.annotation,
+        label: entity.label,
       });
     }
     // add the rest of text.
@@ -142,11 +146,11 @@ export default class TextContainer extends Vue {
     return chunks;
   }
 
-  getPrevNodesLength(content: string): number {
-    const nodeIndex = this.chunks.findIndex((item) => item.content === content);
+  getPrevNodesLength(text: string): number {
+    const nodeIndex = this.chunks.findIndex((item) => item.text === text);
     let prevNodesLength = 0;
     for (let i = 0; i < nodeIndex; i++) {
-      prevNodesLength += this.chunks[i].content.length;
+      prevNodesLength += this.chunks[i].text.length;
     }
     return prevNodesLength;
   }
@@ -215,16 +219,16 @@ export default class TextContainer extends Vue {
     );
   }
 
-  addAnnotation(annotation: string): void {
+  addAnnotation(label: string): void {
     if (
-      annotation.length &&
+      label.length &&
       typeof this.selectingContent == "string" &&
       this.selectingContent.length &&
       this.selectingContentStartIndex !== null
     ) {
       this.textAnnotations = this.textAnnotations.concat({
-        content: this.selectingContent,
-        annotation,
+        text: this.selectingContent,
+        label,
         start: this.selectingContentStartIndex,
         end: this.selectingContentStartIndex + this.selectingContent.length,
       });

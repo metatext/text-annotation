@@ -1,17 +1,17 @@
 {
-  "name": "simple-text-annotation",
-  "description": "A vue2 component for text annotation",
-  "version": "0.0.3",
+  "name": "ner-text-annotation",
+  "description": "A vue2component for NER text annotation",
+  "version": "0.0.13",
   "private": false,
-  "author": "Maurício Madruga de Azevedo",
+  "author": "Metatext",
   "license": "MIT",
-  "main": "dist/simple-text-annotation.common.js",
+  "main": "dist/ner-text-annotation.common.js",
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:mauricio-frontend/simple-text-annotation.git"
+    "url": "git+ssh://git@github.com/metatext/text-annotation.git"
   },
   "keywords": [
     "vue2",
@@ -19,14 +19,15 @@
     "data-masking",
     "vue-component"
   ],
-  "homepage": "https://github.com/mauricio-frontend/simple-text-annotation",
+  "homepage": "https://github.com/metatext/text-annotation",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-package": "vue-cli-service build --target lib --name simple-text-annotation ./src/index.js"
+    "build-package": "vue-cli-service build --target lib --name ner-text-annotation ./src/index.js"
   },
   "dependencies": {
+    "buefy": "^0.9.25",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -49,5 +50,8 @@
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5",
     "vue-template-compiler": "^2.6.11"
+  },
+  "bugs": {
+    "url": "https://github.com/metatext/text-annotation/issues"
   }
 }

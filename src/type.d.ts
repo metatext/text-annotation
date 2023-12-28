@@ -1,13 +1,13 @@
 export interface Annotation {
-  content: string;
-  annotation: string;
+  text: string;
+  label: string;
   start: number;
   end: number;
 }
 export interface Chunk {
   type: string;
-  annotation?: string;
-  content: string;
+  label?: string;
+  text: string;
   start?: number;
   end?: number;
 }
